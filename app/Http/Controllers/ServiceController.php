@@ -24,13 +24,17 @@ class ServiceController extends BaseController
         return response()->json($services);
     }
 
-    public function update()
+    public function update(Request $request, $id)
     {
+        $service = Service::find($id);
+        $service->name = $request->input('name');
+        $service->save();
+        return response()->json($service);
     }
 
     public function delete($id)
     {
-        $service = Service::find($id)->get();
+        $service = Service::find($id);
         $service->delete();
         return response()->json('Removed successfully.');
     }

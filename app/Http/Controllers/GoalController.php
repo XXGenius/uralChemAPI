@@ -25,8 +25,12 @@ class GoalController extends BaseController
         return response()->json($goals);
     }
 
-    public function update()
+    public function update(Request $request, $id)
     {
+        $goal = Goal::find($id);
+        $goal->name = $request->input('name');
+        $goal->save();
+        return response()->json($goal);
     }
 
     public function delete($id)

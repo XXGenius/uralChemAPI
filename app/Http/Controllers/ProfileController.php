@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Profile;
 use Illuminate\Http\Request;
 
@@ -24,8 +25,12 @@ class ProfileController extends BaseController
         return response()->json($profiles);
     }
 
-    public function update()
+    public function update(Request $request, $id)
     {
+        $profile = Profile::find($id);
+        $profile->name = $request->input('name');
+        $profile->save();
+        return response()->json($profile);
     }
 
     public function delete($id)

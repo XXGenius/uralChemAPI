@@ -25,8 +25,12 @@ class CategoryController extends BaseController
         return response()->json($categories);
     }
 
-    public function update()
+    public function update(Request $request, $id)
     {
+        $category = Category::find($id);
+        $category->name = $request->input('name');
+        $category->save();
+        return response()->json($category);
     }
 
     public function delete($id)

@@ -24,12 +24,17 @@ class PurchaseMethodController extends BaseController
         return response()->json($purchaseMethods);
     }
 
-    public function update()
-    {}
+    public function update(Request $request, $id)
+    {
+        $purchaseMethod = PurchaseMethod::find($id);
+        $purchaseMethod->name = $request->input('name');
+        $purchaseMethod->save();
+        return response()->json($purchaseMethod);
+    }
 
     public function delete($id)
     {
-        $purchaseMethod = PurchaseMethod::find($id)->get();
+        $purchaseMethod = PurchaseMethod::find($id);
         $purchaseMethod->delete();
         return response()->json('Removed successfully.');
     }

@@ -20,7 +20,14 @@ class BranchController extends BaseController
             'profile_id' => $profile_id,
         ]);
         $branch->save();
-        return response()->json($branch);
+        $profile = Profile::find($profile_id)->first();
+        return response()->json(['branch' => $branch, 'profile' => $profile->name]);
+    }
+
+    public function index()
+    {
+        $branches = Branch::all();
+        return response()->json($branches);
     }
 
     public function read($profile_id)
@@ -30,8 +37,13 @@ class BranchController extends BaseController
         return response()->json(['branches' => $branch, 'profile' => $profile->name]);
     }
 
-    public function update()
+    public function update(Request $request, $id)
     {
+        $branch = Branch::find($id);
+        $branch->name = $request->input('name');
+        $branch->profile_id = $request->input('profile_id');
+        $branch->save();
+        return response()->json($branch);
     }
 
     public function delete($id)

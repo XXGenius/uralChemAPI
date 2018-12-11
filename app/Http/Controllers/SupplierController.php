@@ -21,15 +21,27 @@ class SupplierController extends BaseController
         return response()->json($supplier);
     }
 
+    public function index()
+    {
+        $suppliers = Supplier::all();
+        return response()->json($suppliers);
+    }
+
     public function read($purchase_method_id)
     {
         $supplier = Supplier::where('purchase_method_id', '=', $purchase_method_id)->get();
         return response()->json($supplier);
     }
 
-    public function update()
+    public function update(Request $request, $id)
     {
+        $supplier = Supplier::find($id);
+        $supplier->name = $request->input('name');
+        $supplier->purchase_method_id = $request->input('purchase_method_id');
+        $supplier->save();
+        return response()->json($supplier);
     }
+
 
     public function delete($id)
     {

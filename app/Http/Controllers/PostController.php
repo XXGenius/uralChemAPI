@@ -25,8 +25,12 @@ class PostController extends BaseController
         return response()->json($posts);
     }
 
-    public function update()
+    public function update(Request $request, $id)
     {
+        $post = Post::find($id);
+        $post->name = $request->input('name');
+        $post->save();
+        return response()->json($post);
     }
 
     public function delete($id)

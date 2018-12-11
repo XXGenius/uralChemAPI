@@ -15,16 +15,25 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->post('api/create-user/','UserController@create');
 $router->post('api/login/','UserController@authenticate');
+
+
 $router->group(['prefix' => 'api/', 'middleware' => 'auth'], function() use ($router)
 {
+
+    $router->group(['prefix' => 'user/'], function() use ($router)
+    {
+        $router->post('create/','UserController@create');
+        $router->get('get/','UserController@read');
+        $router->post('delete/{id}','UserController@delete');
+    });
 
     $router->group(['prefix' => 'profile/'], function() use ($router)
     {
         $router->post('create/','ProfileController@create');
         $router->get('get/','ProfileController@read');
         $router->post('delete/{id}','ProfileController@delete');
+        $router->post('update/{id}','ProfileController@update');
     });
 
 
@@ -32,22 +41,26 @@ $router->group(['prefix' => 'api/', 'middleware' => 'auth'], function() use ($ro
     {
         $router->post('create/','BranchController@create');
         $router->get('get/{profile-id}','BranchController@read');
+        $router->get('get-all/','BranchController@index');
         $router->post('delete/{id}','BranchController@delete');
+        $router->post('update/{id}','BranchController@update');
     });
 
 
     $router->group(['prefix' => 'category/'], function() use ($router)
     {
         $router->post('create/','CategoryController@create');
-        $router->get('get/','CategoryController@read');
+        $router->get('get-all/','CategoryController@read');
         $router->post('delete/{id}','CategoryController@delete');
+        $router->post('update/{id}','CategoryController@update');
     });
 
 
     $router->group(['prefix' => 'company/'], function() use ($router)
     {
+        $router->post('update/{id}','CompanyController@update');
         $router->post('create/','CompanyController@create');
-        $router->get('get/','CompanyController@read');
+        $router->get('get-all/','CompanyController@read');
         $router->post('delete/{id}','CompanyController@delete');
     });
 
@@ -62,9 +75,20 @@ $router->group(['prefix' => 'api/', 'middleware' => 'auth'], function() use ($ro
 
     $router->group(['prefix' => 'crop/'], function() use ($router)
     {
+        $router->get('get-all/','CropController@index');
         $router->post('create/','CropController@create');
         $router->get('get/{profile_id}','CropController@read');
         $router->post('delete/{id}','CropController@delete');
+        $router->post('update/{id}','CropController@update');
+    });
+
+    $router->group(['prefix' => 'supplier/'], function() use ($router)
+    {
+        $router->get('get-all/','SupplierController@index');
+        $router->post('create/','SupplierController@create');
+        $router->get('get/{profile_id}','SupplierController@read');
+        $router->post('delete/{id}','SupplierController@delete');
+        $router->post('update/{id}','SupplierController@update');
     });
 
 
@@ -86,8 +110,9 @@ $router->group(['prefix' => 'api/', 'middleware' => 'auth'], function() use ($ro
 
     $router->group(['prefix' => 'goal/'], function() use ($router)
     {
+        $router->post('update/{id}','GoalController@update');
         $router->post('create/','GoalController@create');
-        $router->get('get/','GoalController@read');
+        $router->get('get-all/','GoalController@read');
         $router->post('delete/{id}','GoalController@delete');
     });
 
@@ -110,15 +135,34 @@ $router->group(['prefix' => 'api/', 'middleware' => 'auth'], function() use ($ro
 
     $router->group(['prefix' => 'post/'], function() use ($router)
     {
+        $router->post('update/{id}','PostController@update');
         $router->post('create/','PostController@create');
-        $router->get('get/','PostController@read');
+        $router->get('get-all/','PostController@read');
         $router->post('delete/{id}','PostController@delete');
+    });
+
+    $router->group(['prefix' => 'service/'], function() use ($router)
+    {
+        $router->post('update/{id}','ServiceController@update');
+        $router->post('create/','ServiceController@create');
+        $router->get('get-all/','ServiceController@read');
+        $router->post('delete/{id}','ServiceController@delete');
+    });
+
+    $router->group(['prefix' => 'purchase/'], function() use ($router)
+    {
+        $router->post('update/{id}','PurchaseMethodController@update');
+        $router->post('create/','PurchaseMethodController@create');
+        $router->get('get-all/','PurchaseMethodController@read');
+        $router->post('delete/{id}','PurchaseMethodController@delete');
     });
 
 
     $router->group(['prefix' => 'product/'], function() use ($router)
     {
+        $router->get('get-all/','ProductController@index');
         $router->post('create/','ProductController@create');
+        $router->post('update/{id}','ProductController@update');
         $router->get('get/{profile_id}','ProductController@read');
         $router->post('delete/{id}','ProductController@delete');
     });

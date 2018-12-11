@@ -20,14 +20,26 @@ class CropController extends BaseController
         return response()->json($crop);
     }
 
+    public function index()
+    {
+        $crops = Crop::all();
+        return response()->json($crops);
+    }
+
     public function read($profile_id)
     {
         $crops = Crop::where('profile_id', '=', $profile_id)->get();
         return response()->json($crops);
     }
 
-    public function update()
-    {}
+    public function update(Request $request, $id)
+    {
+        $crop = Crop::find($id);
+        $crop->name = $request->input('name');
+        $crop->profile_id = $request->input('profile_id');
+        $crop->save();
+        return response()->json($crop);
+    }
 
     public function delete($id)
     {

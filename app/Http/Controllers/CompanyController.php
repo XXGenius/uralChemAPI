@@ -24,8 +24,13 @@ class CompanyController extends BaseController
         return response()->json($companies);
     }
 
-    public function update()
-    {}
+    public function update(Request $request, $id)
+    {
+        $company = Company::find($id);
+        $company->name = $request->input('name');
+        $company->save();
+        return response()->json($company);
+    }
 
     public function delete($id)
     {
